@@ -1,0 +1,22 @@
+version: '3.9'
+
+services:
+  frontend:
+    image: node:18.9.1
+    container_name: frontend
+    volumes:
+      - "./frontend/bonne-coordination:/projects/frontend/bonne-coordination"
+    working_dir: /projects/frontend/bonne-coordination
+    ports:
+      - 3000:3000
+    tty: true
+    command: bash -c "npm i && npm start"
+  backend:
+    image: golang:1.19.1
+    container_name: backend
+    working_dir: /app
+    volumes:
+      - './backend:/app'
+    ports:
+      - 8080:8080
+    tty: true
