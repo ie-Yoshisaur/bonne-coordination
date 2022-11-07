@@ -3,7 +3,7 @@ import { AppState } from '../../contexts/AppContext';
 export default async function fetchProblemImage(
     appContext: AppState | null,
 ) {
-    const fetchImageURL = 'http://localhost:8080/get-image';
+    const fetchImageURL = 'http://localhost/api/get-image';
     await fetch(fetchImageURL, {
         method: 'GET',
     })

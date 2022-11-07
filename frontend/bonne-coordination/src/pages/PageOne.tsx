@@ -5,7 +5,6 @@ import { AppContext } from '../contexts/AppContext';
 
 const PageOne = () => {
     const appContext = useContext(AppContext);
-
     const bodyTypeOptions = [
         {option: '--未選択--'},
         {option: '身体にに厚みのある'},
@@ -54,6 +53,8 @@ const PageOne = () => {
 
     return (
         <div>
+            <p>こんにちは､{appContext?.userName}さん</p>
+            <hr></hr>
             <p>体全体の印象は?</p>
             <select value={bodyType} onChange={handleBodyTypeChange}>
                 {bodyTypeOptions.map(option => (

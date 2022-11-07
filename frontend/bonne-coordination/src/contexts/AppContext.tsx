@@ -5,6 +5,8 @@ interface Props {
 }
 
 export interface AppState {
+    userName: string,
+    setUserName: Dispatch<SetStateAction<string>>,
     skeletalType: string,
     setSkeletalType: Dispatch<SetStateAction<string>>,
     imageURL: string,
@@ -13,10 +15,13 @@ export interface AppState {
 
 export const AppContext = createContext<AppState | null>(null);
 export const AppContextProvider: FC<Props> = ({ children}) => {
+    const [userName, setUserName] = useState('');
     const [skeletalType, setSkeletalType] = useState('未分類');
     const [imageURL, setImageURL] = useState('');
     return (
         <AppContext.Provider value={{
+            userName,
+            setUserName,
             skeletalType,
             setSkeletalType,
             imageURL,
