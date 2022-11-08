@@ -1,7 +1,7 @@
 import { AppState } from '../../contexts/AppContext';
 
 export default async function fetchSkeletalType(appContext: AppState | null) {
-    const fetchSkeletalTypeURL = 'http://localhost:8080/get-skeletaltype';
+    const fetchSkeletalTypeURL = 'http://localhost/api/get-skeletaltype';
     await fetch(fetchSkeletalTypeURL, {
         method: 'GET',
     })
