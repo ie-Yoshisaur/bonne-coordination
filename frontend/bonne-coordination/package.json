@@ -42,9 +42,11 @@
     ]
   },
   "devDependencies": {
+    "@types/react-modal": "^3.13.1",
     "@typescript-eslint/eslint-plugin": "^5.42.0",
     "@typescript-eslint/parser": "^5.42.0",
     "eslint": "^8.27.0",
-    "eslint-plugin-react": "^7.31.10"
+    "eslint-plugin-react": "^7.31.10",
+    "react-modal": "^3.16.1"
   }
 }
