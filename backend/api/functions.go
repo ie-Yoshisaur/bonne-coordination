@@ -12,7 +12,7 @@ import (
 	"math/big"
 	"net/http"
 	"time"
-
+	"strings"
 	"github.com/dgrijalva/jwt-go"
 	_ "github.com/lib/pq"
 )
@@ -31,7 +31,16 @@ type SignUpRequest struct {
 	PasswordConfirmination string `json:"passwordConfirmination"`
 }
 
+type SignInRequest struct {
+	Name                   string `json:"name"`
+	Password               string `json:"password"`
+}
+
 type SignUpResponse struct {
+	Name string `json:"name"`
+}
+
+type SignInResponse struct {
 	Name string `json:"name"`
 }
 
@@ -92,6 +101,8 @@ func (s *Server) SignUp(w http.ResponseWriter, r *http.Request) {
 	decodeError := decoder.Decode(&signUpRequest)
 	if decodeError != nil {
 		log.Println("[ERROR]", decodeError)
+		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
 	if signUpRequest.Password != signUpRequest.PasswordConfirmination {
 		w.WriteHeader(http.StatusBadRequest)
@@ -114,8 +125,49 @@ func (s *Server) SignUp(w http.ResponseWriter, r *http.Request) {
 	jsonResponse, err := json.Marshal(response)
 	if err != nil {
 		log.Fatalf("Error happened in JSON marshal. Err: %s", err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
 	w.Write(jsonResponse)
+}
+
+func (s *Server) SignIn(w http.ResponseWriter, r *http.Request) {
+    if r.Method != http.MethodPost {
+        w.WriteHeader(http.StatusBadRequest)
+        return
+    }
+    var signInRequest SignInRequest
+    decoder := json.NewDecoder(r.Body)
+    decodeError := decoder.Decode(&signInRequest)
+    if decodeError != nil {
+        log.Println("[ERROR]", decodeError)
+        w.WriteHeader(http.StatusBadRequest)
+        return
+    }
+    passwordHash32Byte := sha256.Sum256([]byte(signInRequest.Password))
+    passwordHashURLSafe := base64.URLEncoding.EncodeToString(passwordHash32Byte[:])
+    query := fmt.Sprintf("SELECT password_hash FROM users WHERE name = '%s'", signInRequest.Name)
+    var correctPasswordHashURLSafe string
+    if queryError := s.Db.QueryRow(query).Scan(&correctPasswordHashURLSafe); queryError != nil {
+        log.Println("[ERROR]", queryError)
+        w.WriteHeader(http.StatusBadRequest)
+        return
+    }
+    correctPasswordHashURLSafe = strings.TrimRight(correctPasswordHashURLSafe, " ")
+    if passwordHashURLSafe != correctPasswordHashURLSafe {
+        w.WriteHeader(http.StatusUnauthorized)
+        return
+    }
+    SetJwtInCookie(w, signInRequest.Name)
+    w.Header().Set("Content-Type", "application/json")
+    response := SignInRequest{
+        Name: signInRequest.Name,
+    }
+    jsonResponse, err := json.Marshal(response)
+    if err != nil {
+        log.Fatalf("Error happened in JSON marshal. Err: %s", err)
+    }
+    w.Write(jsonResponse)
 }
 
 func (s *Server) HandleGet(w http.ResponseWriter, r *http.Request) {
