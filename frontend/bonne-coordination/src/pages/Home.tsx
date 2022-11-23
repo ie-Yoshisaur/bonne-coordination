@@ -5,11 +5,26 @@ import SignInModal from '../components/modals/SignInModal';
 
 const Home = () => {
     const appContext = useContext(AppContext);
+    const ComponentsToRenderIfNotSignedIn = () => {
+        if (!appContext?.isSignedIn) {
+            return (
+                <>
+                    <SignUpModal />
+                    <SignInModal />
+                </ >
+            );
+        }
+        return (
+            <>
+                <button>骨格診断をする</button>
+            </ >
+        );
+    };
             
     return (
         <>
-            <SignUpModal />
-            <SignInModal />
+            <h1> Bonne Coordination </h1>
+            <ComponentsToRenderIfNotSignedIn />
         </>
     );
 };

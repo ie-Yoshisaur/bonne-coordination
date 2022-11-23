@@ -11,6 +11,7 @@ function SignUpModal() {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirmination, setPasswordConfirmination] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUserName(e.target.value);
@@ -22,9 +23,22 @@ function SignUpModal() {
         setPasswordConfirmination(e.target.value);
     };
     const handleSignUp = () => {
-        signUp(appContext, userName, password, passwordConfirmination).then(() => {
-            closeModal();
-        });
+        signUp(appContext, userName, password, passwordConfirmination)
+            .then(() => {
+                if (appContext?.isSignedIn) {
+                    closeModal();
+                } else {
+                    const errorMessageOfSignUp = '無効な入力です。（原因: すでに存在するユーザー名、無効なパスワードなど）';
+                    setErrorMessage(errorMessageOfSignUp);
+                }
+            });
+    };
+    const handleCancel = () => {
+        setUserName('');
+        setPassword('');
+        setPasswordConfirmination('');
+        setErrorMessage('');
+        closeModal();
     };
     return (
         <div>
@@ -33,6 +47,7 @@ function SignUpModal() {
                 isOpen={isModalOpen}
                 ariaHideApp={false}
             >
+                <button onClick={() => handleCancel()}>キャンセル</button>
                 <div className='user-name'>
                     <label>ユーザー名</label>
                     <input type="text" value={userName} onChange={handleNameChange} placeholder='ユーザー名'></input>
@@ -45,6 +60,7 @@ function SignUpModal() {
                     <label>パスワード(確認用)</label>
                     <input type="password" value={passwordConfirmination} onChange={handlePasswordConfirminationChange} placeholder='パスワード(確認用)'></input>
                 </div>
+                <p>{errorMessage}</p>
                 <button onClick={() => handleSignUp()}>送信</button>
             </Modal>
         </div>

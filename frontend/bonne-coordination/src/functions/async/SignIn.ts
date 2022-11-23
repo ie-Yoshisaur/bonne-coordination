@@ -21,6 +21,9 @@ export default async function signIn(
         })
         .then((json) => {
             appContext?.setUserName(json?.name);
-            return Promise.resolve();
-        }); 
+            appContext?.setIsSignedIn(true);
+        })
+        .catch(() => {
+            appContext?.setIsSignedIn(false);
+        });
 }

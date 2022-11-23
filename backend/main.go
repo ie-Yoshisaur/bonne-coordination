@@ -24,8 +24,7 @@ func main() {
 	}
 	defer db.Close()
 	server := api.Server{Db: db}
-	http.HandleFunc("/get-skeletaltype", server.HandleGet)
-	http.HandleFunc("/get-image", server.HandleGetImage)
+	http.HandleFunc("/get-skeletaltype", server.GetSkeletalType)
 	http.HandleFunc("/sign-up", server.SignUp)
 	http.HandleFunc("/sign-in", server.SignIn)
 	log.Fatal(http.ListenAndServe(":8080", nil))
