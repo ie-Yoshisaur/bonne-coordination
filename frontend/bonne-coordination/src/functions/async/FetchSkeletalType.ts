@@ -1,9 +1,27 @@
 import { AppState } from '../../contexts/AppContext';
 
-export default async function fetchSkeletalType(appContext: AppState | null) {
+export default async function fetchSkeletalType(
+    appContext: AppState | null,
+    bodyImpression: string,
+    fingerJointSize: string,
+    wristShape: string,
+    wristAnkcle: string,
+    clavicleImpression: string,
+    kneecapImpression: string,
+    unsuitableClothe: string,
+) {
     const fetchSkeletalTypeURL = 'http://localhost/api/get-skeletaltype';
     await fetch(fetchSkeletalTypeURL, {
-        method: 'GET',
+        method: 'POST',
+        body: JSON.stringify({
+            bodyImpression,
+            fingerJointSize,
+            wristShape,
+            wristAnkcle,
+            clavicleImpression,
+            kneecapImpression,
+            unsuitableClothe,
+        })
     })
         .then((response) => {
             if (response.statusText === 'OK') {
@@ -12,7 +30,7 @@ export default async function fetchSkeletalType(appContext: AppState | null) {
             return Promise.reject();
         })
         .then((json) => {
-            appContext!.setSkeletalType(json!.message);
+            appContext!.setSkeletalType(json!.skeletalType);
             return Promise.resolve();
         });
 }
