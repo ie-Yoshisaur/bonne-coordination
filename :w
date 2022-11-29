@@ -15,8 +15,7 @@ const PageOne = () => {
     return (
         <div>
             <p>こんにちは、{appContext?.userName}さん</p>
-            {appContext?.doesHaveSkeletalType ? <> </> : <DiagnosisModal />}
-            {appContext?.doesHaveSkeletalType ? <p>あなたの骨格は{appContext?.skeletalType}です</p> : <> </>}
+            <DiagnosisModal />
         </div>
     );
 };
