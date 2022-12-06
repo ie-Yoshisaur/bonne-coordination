@@ -1,10 +1,15 @@
 import React, {useState, useContext} from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../contexts/AppContext';
 import SignUpModal from '../components/modals/SignUpModal';
 import SignInModal from '../components/modals/SignInModal';
 
 const Home = () => {
     const appContext = useContext(AppContext);
+    const navigate = useNavigate();
+    const navigateToSkeletalDiagnosisPage = () => {
+        navigate('/page1');
+    };
     const ComponentsToRenderIfNotSignedIn = () => {
         if (!appContext?.isSignedIn) {
             return (
@@ -16,7 +21,7 @@ const Home = () => {
         }
         return (
             <>
-                <button>骨格診断をする</button>
+                <button onClick={navigateToSkeletalDiagnosisPage}>骨格診断をする</button>
             </ >
         );
     };
