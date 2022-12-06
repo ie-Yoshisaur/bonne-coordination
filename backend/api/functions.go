@@ -41,16 +41,16 @@ type SkeletalTypeRequest struct {
     UnsuitableClothe string `json:"unsuitableClothe"`
 }
 
+type SkeletalTypeResponse struct {
+    SkeletalType string `json:"skeletalType"`
+}
+
 type SignUpResponse struct {
     Name string `json:"name"`
 }
 
 type SignInResponse struct {
     Name string `json:"name"`
-}
-
-type SkeletalTypeResponse struct {
-    SkeletalType string `json:"skeletalType"`
 }
 
 type Claims struct {
@@ -95,6 +95,37 @@ func SetJwtInCookie(w http.ResponseWriter, userName string) {
         Expires: expirationTime,
     }
     http.SetCookie(w, cookie)
+}
+
+func LoadClaimsFromJwt (w http.ResponseWriter, r *http.Request) (*Claims) {
+    c, err := r.Cookie("token")
+    if err != nil {
+        if err == http.ErrNoCookie {
+            w.WriteHeader(http.StatusUnauthorized)
+            return &Claims{}
+        }
+        w.WriteHeader(http.StatusBadRequest)
+        return &Claims{}
+    }
+
+    tknStr := c.Value
+    claims := &Claims{}
+    tkn, err := jwt.ParseWithClaims(tknStr, claims, func(token *jwt.Token) (interface{}, error) {
+        return jwtKey, nil
+    })
+    if err != nil {
+        if err == jwt.ErrSignatureInvalid {
+            w.WriteHeader(http.StatusUnauthorized)
+            return &Claims{}
+        }
+        w.WriteHeader(http.StatusBadRequest)
+        return &Claims{}
+    }
+    if !tkn.Valid {
+        w.WriteHeader(http.StatusUnauthorized)
+        return &Claims{}
+    }
+    return claims
 }
 
 func (s *Server) SignUp(w http.ResponseWriter, r *http.Request) {
@@ -172,6 +203,23 @@ func (s *Server) SignIn(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Content-Type", "application/json")
     response := SignInRequest{
         Name: signInRequest.Name,
+    }
+    jsonResponse, err := json.Marshal(response)
+    if err != nil {
+        log.Fatalf("Error happened in JSON marshal. Err: %s", err)
+    }
+    w.Write(jsonResponse)
+}
+
+func (s *Server) SignInWithJwt(w http.ResponseWriter, r *http.Request) {
+    if r.Method != http.MethodGet {
+        w.WriteHeader(http.StatusBadRequest)
+        return
+    }
+    claims := LoadClaimsFromJwt(w, r)
+    w.Header().Set("Content-Type", "application/json")
+    response := SignInResponse{
+        Name: claims.Name,
     }
     jsonResponse, err := json.Marshal(response)
     if err != nil {

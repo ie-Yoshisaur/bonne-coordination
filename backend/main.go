@@ -27,5 +27,6 @@ func main() {
 	http.HandleFunc("/get-skeletaltype", server.GetSkeletalType)
 	http.HandleFunc("/sign-up", server.SignUp)
 	http.HandleFunc("/sign-in", server.SignIn)
+	http.HandleFunc("/sign-in-with-jwt", server.SignInWithJwt)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
