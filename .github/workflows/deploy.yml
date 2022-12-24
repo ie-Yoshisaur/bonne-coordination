@@ -14,9 +14,7 @@ jobs:
           known_hosts: unnecessary
 
       - name: Adding Known Hosts
-        run: ssh-keyscan -p ${{ secrets.SSH_PORT }} -H ${{ secrets.SSH_HOST_NAME }}  >> ~/.ssh/known_hosts
-        run: ssh-keyscan -p ${{ secrets.PROXY_SSH_PORT }} -H ${{ secrets.PROXY_SSH_HOST_NAME }}  >> ~/.ssh/known_hosts
-        run: echo "${{ secrets.SSH_CONFIG }}" > ~/.ssh/config
+        run: sh -c 'ssh-keyscan -p ${{ secrets.SSH_PORT }} -H ${{ secrets.SSH_HOST_NAME }}  >> ~/.ssh/known_hosts'; sh -c 'ssh-keyscan -p ${{ secrets.PROXY_SSH_PORT }} -H ${{ secrets.PROXY_SSH_HOST_NAME }}  >> ~/.ssh/known_hosts'; sh -c 'echo "${{ secrets.SSH_CONFIG }}" > ~/.ssh/config'
 
       - name: Deploy with rsync
         run: rsync -auvPz ./ ${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/bonne-coordination/
