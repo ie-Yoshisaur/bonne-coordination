@@ -15,7 +15,7 @@ services:
   frontend:
     image: node:18.9.1
     environment:
-      - REACT_APP_API_URL=http://localhost/api
+      - REACT_APP_API_URL=http://bonne-coordination.st.ie.u-ryukyu.ac.jp/api
     container_name: frontend
     volumes:
       - ./frontend/bonne-coordination:/projects/frontend/bonne-coordination

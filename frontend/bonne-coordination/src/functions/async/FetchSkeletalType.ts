@@ -10,7 +10,7 @@ export default async function fetchSkeletalType(
     kneecapImpression: string,
     unsuitableClothe: string,
 ) {
-    const fetchSkeletalTypeURL = 'http://localhost/api/get-skeletaltype';
+    const fetchSkeletalTypeURL = process.env.REACT_APP_API_URL + '/get-skeletaltype';
     await fetch(fetchSkeletalTypeURL, {
         method: 'POST',
         body: JSON.stringify({

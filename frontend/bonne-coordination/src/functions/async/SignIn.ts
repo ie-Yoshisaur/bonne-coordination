@@ -5,7 +5,7 @@ export default async function signIn(
     name: string,
     password: string,
 ) {
-    const signInUrl = 'http://localhost/api/sign-in';
+    const signInUrl = process.env.REACT_APP_API_URL + '/sign-in';
     fetch(signInUrl, {
         method: 'POST',
         body: JSON.stringify({

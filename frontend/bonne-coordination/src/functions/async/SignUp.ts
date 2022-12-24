@@ -6,7 +6,7 @@ export default async function signUp(
     password: string,
     passwordConfirmination: string,
 ) {
-    const signUpUrl = 'http://localhost/api/sign-up';
+    const signUpUrl = process.env.REACT_APP_API_URL + '/sign-up';
     fetch(signUpUrl, {
         method: 'POST',
         body: JSON.stringify({
