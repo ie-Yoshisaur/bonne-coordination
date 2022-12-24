@@ -16,4 +16,6 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
       - name: Deploy with rsync
-        run: rsync -auvPz ./ ${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/bonne-coordination/
+        run: |
+          rsync -auvPz ./ ${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/bonne-coordination/
+          ssh ${{ secrets.SSH_HOST }} "cd /home/$USER/bonne-coordination; docker-compose down; docker-compose -f docker-compose.yml -d --build"
