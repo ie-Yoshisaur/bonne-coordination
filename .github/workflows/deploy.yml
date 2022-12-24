@@ -14,4 +14,4 @@ jobs:
           known_hosts: ${{ secrets.KNOWN_HOSTS }}
           config: ${{ secrets.SSH_CONFIG }}
       - name: Deploy with rsync
-        run: rsync -auvPz dist/ ${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/bonne-coordination/
+        run: ls -la; rsync -auvPz dist/ ${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/bonne-coordination/
