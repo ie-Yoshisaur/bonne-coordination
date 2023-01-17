@@ -26,12 +26,23 @@ type SignUpRequest struct {
     PasswordConfirmination string `json:"passwordConfirmination"`
 }
 
+type SignUpResponse struct {
+    Name string `json:"name"`
+}
+
 type SignInRequest struct {
     Name                   string `json:"name"`
     Password               string `json:"password"`
 }
 
+type SignInResponse struct {
+    Name string `json:"name"`
+    DoesHaveSkeletalType bool `json:"doesHaveSkeletalType"`
+    SkeletalType string `json:"skeletalType"`
+}
+
 type SkeletalTypeRequest struct {
+    Gender string `json:"gender"`
     BodyImpression string `json:"bodyImpression"`
     FingerJointSize string `json:"fingerJointSize"`
     WristShape string `json:"wristShape"`
@@ -43,14 +54,6 @@ type SkeletalTypeRequest struct {
 
 type SkeletalTypeResponse struct {
     SkeletalType string `json:"skeletalType"`
-}
-
-type SignUpResponse struct {
-    Name string `json:"name"`
-}
-
-type SignInResponse struct {
-    Name string `json:"name"`
 }
 
 type Claims struct {
@@ -151,7 +154,7 @@ func (s *Server) SignUp(w http.ResponseWriter, r *http.Request) {
     }
     passwordHash32Byte := sha256.Sum256([]byte(signUpRequest.Password))
     passwordHashURLSafe := base64.URLEncoding.EncodeToString(passwordHash32Byte[:])
-    queryToReGisterUser := fmt.Sprintf("INSERT INTO users (name, password_hash) VALUES ('%s', '%s')", signUpRequest.Name, passwordHashURLSafe)
+    queryToReGisterUser := fmt.Sprintf("INSERT INTO users (name, password_hash) VALUES (TRIM('%s'), TRIM('%s'))", signUpRequest.Name, passwordHashURLSafe)
     _, queryRrror := s.Db.Exec(queryToReGisterUser)
     if queryRrror != nil {
         log.Println("[ERROR]", queryRrror)
@@ -187,9 +190,11 @@ func (s *Server) SignIn(w http.ResponseWriter, r *http.Request) {
     }
     passwordHash32Byte := sha256.Sum256([]byte(signInRequest.Password))
     passwordHashURLSafe := base64.URLEncoding.EncodeToString(passwordHash32Byte[:])
-    query := fmt.Sprintf("SELECT password_hash FROM users WHERE name = '%s'", signInRequest.Name)
+    query := fmt.Sprintf("SELECT password_hash, does_have_skeletal_type, skeletal_type FROM users WHERE name = TRIM('%s')", signInRequest.Name)
     var correctPasswordHashURLSafe string
-    if queryError := s.Db.QueryRow(query).Scan(&correctPasswordHashURLSafe); queryError != nil {
+    var doesHaveSkeletalType bool
+    var skeletalType string
+    if queryError := s.Db.QueryRow(query).Scan(&correctPasswordHashURLSafe, &doesHaveSkeletalType, &skeletalType); queryError != nil {
         log.Println("[ERROR]", queryError)
         w.WriteHeader(http.StatusBadRequest)
         return
@@ -201,8 +206,10 @@ func (s *Server) SignIn(w http.ResponseWriter, r *http.Request) {
     }
     SetJwtInCookie(w, signInRequest.Name)
     w.Header().Set("Content-Type", "application/json")
-    response := SignInRequest{
+    response := SignInResponse{
         Name: signInRequest.Name,
+        DoesHaveSkeletalType: doesHaveSkeletalType,
+        SkeletalType: skeletalType,
     }
     jsonResponse, err := json.Marshal(response)
     if err != nil {
@@ -217,9 +224,19 @@ func (s *Server) SignInWithJwt(w http.ResponseWriter, r *http.Request) {
         return
     }
     claims := LoadClaimsFromJwt(w, r)
+    query := fmt.Sprintf("SELECT does_have_skeletal_type, skeletal_type FROM users WHERE name = TRIM('%s')", claims.Name)
+    var doesHaveSkeletalType bool
+    var skeletalType string
+    if queryError := s.Db.QueryRow(query).Scan(&doesHaveSkeletalType, &skeletalType); queryError != nil {
+        log.Println("[ERROR]", queryError)
+        w.WriteHeader(http.StatusBadRequest)
+        return
+    }
     w.Header().Set("Content-Type", "application/json")
     response := SignInResponse{
         Name: claims.Name,
+        DoesHaveSkeletalType: doesHaveSkeletalType,
+        SkeletalType: skeletalType,
     }
     jsonResponse, err := json.Marshal(response)
     if err != nil {
@@ -241,6 +258,10 @@ func (s *Server) GetSkeletalType(w http.ResponseWriter, r *http.Request) {
         w.WriteHeader(http.StatusBadRequest)
         return
     }
+    if skeletalTypeRequest.Gender != "男性" && skeletalTypeRequest.Gender != "女性" {
+        w.WriteHeader(http.StatusBadRequest)
+        return
+    }
     straightScore := 0
     waveScore := 0
     naturalScore := 0
@@ -250,6 +271,9 @@ func (s *Server) GetSkeletalType(w http.ResponseWriter, r *http.Request) {
         waveScore += 1
     } else if skeletalTypeRequest.BodyImpression == "骨や筋が目立つ" {
         naturalScore += 1
+    } else {
+        w.WriteHeader(http.StatusBadRequest)
+        return
     }
     if skeletalTypeRequest.FingerJointSize == "小さめ" {
         straightScore += 1
@@ -257,6 +281,9 @@ func (s *Server) GetSkeletalType(w http.ResponseWriter, r *http.Request) {
         waveScore += 1
     } else if skeletalTypeRequest.FingerJointSize == "大きい" {
         naturalScore += 1
+    } else {
+        w.WriteHeader(http.StatusBadRequest)
+        return
     }
     if skeletalTypeRequest.WristShape == "断面にすると丸に近い形" {
         straightScore += 1
@@ -264,6 +291,9 @@ func (s *Server) GetSkeletalType(w http.ResponseWriter, r *http.Request) {
         waveScore += 1
     } else if skeletalTypeRequest.WristShape == "骨が目立ち、しっかりしている" {
         naturalScore += 1
+    } else {
+        w.WriteHeader(http.StatusBadRequest)
+        return
     }
     if skeletalTypeRequest.WristAnkcle == "ほとんど見えないくらい小さい" {
         straightScore += 1
@@ -271,6 +301,9 @@ func (s *Server) GetSkeletalType(w http.ResponseWriter, r *http.Request) {
         waveScore += 1
     } else if skeletalTypeRequest.WristAnkcle == "とてもはっきり出ている、または大きい" {
         naturalScore += 1
+    } else {
+        w.WriteHeader(http.StatusBadRequest)
+        return
     }
     if skeletalTypeRequest.ClavicleImpression == "ほとんど見えないくらい小さい" {
         straightScore += 1
@@ -278,6 +311,9 @@ func (s *Server) GetSkeletalType(w http.ResponseWriter, r *http.Request) {
         waveScore += 1
     } else if skeletalTypeRequest.ClavicleImpression == "大きくしっかりしている" {
         naturalScore += 1
+    } else {
+        w.WriteHeader(http.StatusBadRequest)
+        return
     }
     if skeletalTypeRequest.KneecapImpression == "小さめで、あまり存在感がない" {
         straightScore += 1
@@ -285,6 +321,9 @@ func (s *Server) GetSkeletalType(w http.ResponseWriter, r *http.Request) {
         waveScore += 1
     } else if skeletalTypeRequest.KneecapImpression == "大きい" {
         naturalScore += 1
+    } else {
+        w.WriteHeader(http.StatusBadRequest)
+        return
     }
     if skeletalTypeRequest.UnsuitableClothe == "スキニーパンツ" {
         straightScore += 1
@@ -292,15 +331,26 @@ func (s *Server) GetSkeletalType(w http.ResponseWriter, r *http.Request) {
         waveScore += 1
     } else if skeletalTypeRequest.UnsuitableClothe == "無地の小さめのTシャツ" {
         naturalScore += 1
-    }
-    var response SkeletalTypeResponse
-    if straightScore > waveScore && straightScore > naturalScore {
-        response = SkeletalTypeResponse{SkeletalType: "ストレート"}
-    } else if waveScore > straightScore && waveScore > naturalScore {
-        response = SkeletalTypeResponse{SkeletalType: "ウェーブ"}
     } else {
-        response = SkeletalTypeResponse{SkeletalType: "ナチュラル"}
+        w.WriteHeader(http.StatusBadRequest)
+        return
     }
+    var skeletalType string
+    if straightScore > waveScore && straightScore > naturalScore {
+        skeletalType = "ストレート"
+    } else if waveScore > straightScore && waveScore > naturalScore {
+        skeletalType = "ウェーブ"
+    } else {
+        skeletalType = "ナチュラル"
+    }
+    queryToUpdateSkeletalTypeAndGender := fmt.Sprintf("UPDATE users SET does_have_skeletal_type = TRUE, gender = TRIM('%s'), skeletal_type = TRIM('%s')", skeletalTypeRequest.Gender, skeletalType)
+    _, queryRrror := s.Db.Exec(queryToUpdateSkeletalTypeAndGender)
+    if queryRrror != nil {
+        log.Println("[ERROR]", queryRrror)
+        w.WriteHeader(http.StatusBadRequest)
+        return
+    }
+    response := SkeletalTypeResponse{SkeletalType: skeletalType}
     responseJson, err := json.Marshal(response)
     if err != nil {
         http.Error(w, err.Error(), http.StatusInternalServerError)
