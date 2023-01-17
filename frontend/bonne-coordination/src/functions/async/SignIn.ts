@@ -21,6 +21,10 @@ export default async function signIn(
         })
         .then((json) => {
             appContext?.setUserName(json?.name);
+            if (json?.doesHaveSkeletalType) {
+                appContext?.setSkeletalType(json?.sekeletalType);
+                appContext?.setDoesHaveSkeletalType(true);
+            }
             appContext?.setIsSignedIn(true);
         })
         .catch(() => {

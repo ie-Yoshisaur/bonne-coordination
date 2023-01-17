@@ -13,6 +13,11 @@ export default async function signUp(appContext: AppState | null) {
         })
         .then((json) => {
             appContext?.setUserName(json?.name);
+            if (json?.doesHaveSkeletalType) {
+                appContext?.setDoesHaveSkeletalType(true);
+                const skeletalType = json?.skeletalType;
+                appContext?.setSkeletalType(skeletalType);
+            }
             appContext?.setIsSignedIn(true);
         })
         .catch(() => {

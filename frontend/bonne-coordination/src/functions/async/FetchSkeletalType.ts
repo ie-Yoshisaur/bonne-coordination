@@ -2,6 +2,7 @@ import { AppState } from '../../contexts/AppContext';
 
 export default async function fetchSkeletalType(
     appContext: AppState | null,
+    gender: string,
     bodyImpression: string,
     fingerJointSize: string,
     wristShape: string,
@@ -14,6 +15,7 @@ export default async function fetchSkeletalType(
     await fetch(fetchSkeletalTypeURL, {
         method: 'POST',
         body: JSON.stringify({
+            gender,
             bodyImpression,
             fingerJointSize,
             wristShape,
@@ -31,6 +33,7 @@ export default async function fetchSkeletalType(
         })
         .then((json) => {
             appContext!.setSkeletalType(json!.skeletalType);
+            appContext!.setDoesHaveSkeletalType(true);
             return Promise.resolve();
         });
 }

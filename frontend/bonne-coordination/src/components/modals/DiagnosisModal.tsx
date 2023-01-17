@@ -19,11 +19,12 @@ function DiagnosisModal() {
         }
     };
     const increasePageCount = () => {
-        if (pageCount !== 6 && answers[pageCount] !== '--未選択--') {
+        if (pageCount !== 7 && answers[pageCount] !== '--未選択--') {
             setPageCount(pageCount + 1);
         }
     };
 
+    const [gender, setGender] = useState('--未選択--');
     const [bodyImpression, setBodyImpression] = useState('--未選択--');
     const [fingerJointSize, setFingerJointSize] = useState('--未選択--');
     const [wristShape, setWristShape] = useState('--未選択--');
@@ -33,6 +34,7 @@ function DiagnosisModal() {
     const [unsuitableClothe, setUnsuitableClothe] = useState('--未選択--');
 
     const answers = [
+        gender,
         bodyImpression,
         fingerJointSize,
         wristShape,
@@ -44,18 +46,20 @@ function DiagnosisModal() {
 
     const handleOptionChange = (event: ChangeEvent<HTMLSelectElement>) => {
         if (pageCount === 0) {
-            setBodyImpression(event.target.value);
+            setGender(event.target.value);
         } else if (pageCount === 1) {
-            setFingerJointSize(event.target.value);
+            setBodyImpression(event.target.value);
         } else if (pageCount === 2) {
-            setWristShape(event.target.value);
+            setFingerJointSize(event.target.value);
         } else if (pageCount === 3) {
-            setWristAnkcle(event.target.value);
+            setWristShape(event.target.value);
         } else if (pageCount === 4) {
-            setClavicleImpression(event.target.value);
+            setWristAnkcle(event.target.value);
         } else if (pageCount === 5) {
-            setKneecapImpressionOptions(event.target.value);
+            setClavicleImpression(event.target.value);
         } else if (pageCount === 6) {
+            setKneecapImpressionOptions(event.target.value);
+        } else if (pageCount === 7) {
             setUnsuitableClothe(event.target.value);
         }
     };
@@ -63,6 +67,7 @@ function DiagnosisModal() {
     const fetchSkeletalTypeButtonAction = () => {
         fetchSkeletalType(
             appContext,
+            gender,
             bodyImpression,
             fingerJointSize,
             wristShape,
@@ -80,6 +85,7 @@ function DiagnosisModal() {
     };
 
     const questions = [
+        '性別は?',
         '体全体の印象は?',
         '指の関節の大きさは?',
         '手首の特徴は?',
@@ -90,6 +96,11 @@ function DiagnosisModal() {
     ];
 
     const optionDictArr: Array<Array<{option: string}>> = [
+        [
+            {option: '--未選択--'},
+            {option: '男性'},
+            {option: '女性'},
+        ],
         [
             {option: '--未選択--'},
             {option: '厚みがあり、肉厚的'},
@@ -128,12 +139,6 @@ function DiagnosisModal() {
         ],
         [
             {option: '--未選択--'},
-            {option: '小さめで、あまり存在感がない'},
-            {option: '中くらいの大きさ、触ると前に出ている'},
-            {option: '大きい'},
-        ],
-        [
-            {option: '--未選択--'},
             {option: 'スキニーパンツ'},
             {option: '革ジャケット'},
             {option: '無地の小さめTシャツ'},
@@ -157,8 +162,8 @@ function DiagnosisModal() {
                     ))}
                 </select>
                 {pageCount !== 0 ? <button onClick={() => decreasePageCount()}>戻る</button>: <></ >}
-                {pageCount !== 6 ? <button onClick={() => increasePageCount()}>進む</button>: <></ >}
-                {pageCount === 6 && answers[pageCount] !== '--未選択--' ? <button onClick={() => fetchSkeletalTypeButtonAction()}>骨格診断の結果を取得する</button>: <></ >}
+                {pageCount !== 7 ? <button onClick={() => increasePageCount()}>進む</button>: <></ >}
+                {pageCount === 7 && answers[pageCount] !== '--未選択--' ? <button onClick={() => fetchSkeletalTypeButtonAction()}>骨格診断の結果を取得する</button>: <></ >}
             </Modal>
         </div>
     );

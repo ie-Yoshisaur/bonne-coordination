@@ -4,6 +4,7 @@ import DiagnosisModal from '../components/modals/DiagnosisModal';
 
 const PageOne = () => {
     const appContext = useContext(AppContext);
+    console.log(appContext?.skeletalType);
 
     if (!appContext?.isSignedIn) {
         return (
