@@ -30,6 +30,7 @@ services:
     working_dir: /app
     env_file: .env
     environment:
+      - POSTGRES_USER=postgres
       - POSTGRES_DB=postgres
     depends_on:
       - db
@@ -47,6 +48,7 @@ services:
     restart: always
     env_file: .env
     environment:
+      - POSTGRES_USER=postgres
       - POSTGRES_INITDB_ARGS="--encoding=UTF8"
     volumes:
       - ./db/init/init.sql:/docker-entrypoint-initdb.d/create_tables.sql

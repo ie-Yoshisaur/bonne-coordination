@@ -37,12 +37,15 @@ This project has the following services:
 - db: 5432:5432
 
 ## Environment Variables
+
 - REACT_APP_API_URL: URL for the backend API
 - POSTGRES_USER: Postgres username
 - POSTGRES_PASSWORD: Postgres password
 - POSTGRES_INITDB_ARGS: Arguments for initializing the Postgres database
 
 ## Backing up and restoring data
+
+### Backing up
 
 In order to backup the data, you can use the following command:
 
@@ -51,6 +54,10 @@ docker-compose exec db pg_dump -Fc -U postgres -f /backup/db.dump
 ```
 
 This command will create a binary file named db.dump in your current directory, which contains a backup of the data in your Postgres database.
+
+It is recommended to set up a regular backup schedule, such as by editing the cron settings, to ensure that your data is backed up regularly and automatically after deployment. This can help prevent any data loss and ensure that you have a recent copy of your data in case of any unexpected issues.
+
+### Restoring data
 
 To restore the data, you can use the following command:
 

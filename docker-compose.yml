@@ -29,7 +29,6 @@ services:
     container_name: backend
     working_dir: /app
     environment:
-      - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     depends_on:
