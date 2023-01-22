@@ -13,6 +13,8 @@ jobs:
           name: id_rsa
           known_hosts: ${{ secrets.KNOWN_HOSTS }}
           config: ${{ secrets.SSH_CONFIG }}
+      - name: Check out code
+        uses: actions/checkout@v2
       - name: Set env
         uses: SpicyPizza/create-envfile@v1.3
         with:
@@ -20,8 +22,6 @@ jobs:
           envkey_POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           directory: .
           file_name: .env
-      - name: Check out code
-        uses: actions/checkout@v2
       - name: Deploy with rsync
         run: |
           rsync -auvPz ./ ${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/bonne-coordination/
