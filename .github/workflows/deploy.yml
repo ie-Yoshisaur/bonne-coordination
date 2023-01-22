@@ -14,9 +14,10 @@ jobs:
           known_hosts: ${{ secrets.KNOWN_HOSTS }}
           config: ${{ secrets.SSH_CONFIG }}
       - name: Set env
-        run: |
-          echo "POSTGRES_USER =${ secrets.POSTGRES_USER }" >> .env
-          echo "POSTGRES_PASSWORD =${ secrets.POSTGRES_PASSWORD }" >> .env
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
       - name: Check out code
         uses: actions/checkout@v2
       - name: Deploy with rsync
