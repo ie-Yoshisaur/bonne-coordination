@@ -5,15 +5,19 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"skeleton/api"
 )
 
 const (
 	host     = "db"
 	port     = 5432
-	user     = "postgres"
-	password = "postgres"
-	dbname   = "postgres"
+)
+
+var (
+	user     = os.Getenv("POSTGRES_USER")
+	password = os.Getenv("POSTGRES_PASSWORD")
+	dbname   = os.Getenv("POSTGRES_DB")
 )
 
 func main() {
