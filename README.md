@@ -43,6 +43,25 @@ This project has the following services:
 - POSTGRES_PASSWORD: Postgres password
 - POSTGRES_INITDB_ARGS: Arguments for initializing the Postgres database
 
+## Deployment Workflow
+
+This GitHub workflow is set up so that when code is pushed to the master branch, the .github/workflows/deploy.yml workflow will run and deploy the code to the production environment.
+
+The following table describes the role of each of the environment variables stored in the repository secrets:
+
+|Variable Name|Description|
+|:----|:----|
+|KNOWN_HOSTS|A list of known hosts for SSH, used for authenticating the host during SSH connection|
+|POSTGRES_PASSWORD|The password for the Postgres user|
+|PROXY_SSH_HOST_NAME|The hostname of the SSH proxy server|
+|PROXY_SSH_PORT|The port of the SSH proxy server|
+|SSH_CONFIG|The configuration file for SSH|
+|SSH_HOST|The hostname of the remote server to which the code will be deployed|
+|SSH_HOST_NAME|The hostname of the SSH server|
+|SSH_PORT|The port of the SSH server|
+|SSH_PRIVATE_KEY|The private key used for SSH authentication|
+|SSH_USER|The username for the remote server to which the code will be deployed|
+
 ## Backing up and restoring data
 
 ### Backing up
