@@ -28,6 +28,9 @@ services:
     image: golang:1.19.1
     container_name: backend
     working_dir: /app
+    env_file: .env
+    environment:
+      - POSTGRES_DB=postgres
     depends_on:
       - db
     links:
@@ -42,12 +45,12 @@ services:
     image: postgres:14.4
     container_name: db
     restart: always
+    env_file: .env
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
       - POSTGRES_INITDB_ARGS="--encoding=UTF8"
     volumes:
-      - ./db/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      - ./db/init/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      - ./db/backup:/backup
     ports:
       - 5432:5432
     tty: true
