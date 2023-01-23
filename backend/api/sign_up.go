@@ -42,10 +42,15 @@ func (s *Server) SignUp(w http.ResponseWriter, r *http.Request) {
     }
     passwordHash32Byte := sha256.Sum256([]byte(signUpRequest.Password))
     passwordHashURLSafe := base64.URLEncoding.EncodeToString(passwordHash32Byte[:])
-    queryToReGisterUser := fmt.Sprintf("INSERT INTO users (name, password_hash) VALUES ('%s', '%s')", signUpRequest.Name, passwordHashURLSafe)
+    fmt.Println(signUpRequest.Name)
+    queryToReGisterUser := fmt.Sprintf("INSERT INTO users (name, password_hash) VALUES ('%s', '%s');", signUpRequest.Name, passwordHashURLSafe)
+    err2 := s.Db.Ping()
+    if err2 != nil {
+	fmt.Println(err2)
+    }
     _, queryRrror := s.Db.Exec(queryToReGisterUser)
     if queryRrror != nil {
-        log.Println("[ERROR]", queryRrror)
+        log.Println("[QUERY ERROR]", queryRrror)
         w.WriteHeader(http.StatusBadRequest)
         return
     }
