@@ -4,7 +4,6 @@ import (
     "crypto/sha256"
     "encoding/base64"
     "encoding/json"
-    "fmt"
     "log"
     "net/http"
 )
@@ -35,11 +34,10 @@ func (s *Server) SignIn(w http.ResponseWriter, r *http.Request) {
     }
     passwordHash32Byte := sha256.Sum256([]byte(signInRequest.Password))
     passwordHashURLSafe := base64.URLEncoding.EncodeToString(passwordHash32Byte[:])
-    query := fmt.Sprintf("SELECT password_hash, does_have_body_type, body_type FROM users WHERE name = '%s'", signInRequest.Name)
     var correctPasswordHashURLSafe string
     var doesHaveBodyType bool
     var bodyType string
-    queryError := s.Db.QueryRow(query).Scan(&correctPasswordHashURLSafe, &doesHaveBodyType, &bodyType)
+    queryError := s.Db.QueryRow("SELECT password_hash, does_have_body_type, body_type FROM users WHERE name = $1", signInRequest.Name).Scan(&correctPasswordHashURLSafe, &doesHaveBodyType, &bodyType)
     httpStatus := HandleQueryError(queryError, w)
     if httpStatus != 200 {
         return
@@ -71,10 +69,9 @@ func (s *Server) SignInWithJwt(w http.ResponseWriter, r *http.Request) {
     if httpStatus != 200 {
         return
     }
-    query := fmt.Sprintf("SELECT does_have_body_type, body_type FROM users WHERE name = '%s'", claims.Name)
     var doesHaveBodyType bool
     var bodyType string
-    if queryError := s.Db.QueryRow(query).Scan(&doesHaveBodyType, &bodyType); queryError != nil {
+    if queryError := s.Db.QueryRow("SELECT does_have_body_type, body_type FROM users WHERE name = $1", claims.Name).Scan(&doesHaveBodyType, &bodyType); queryError != nil {
         log.Println("[ERROR]", queryError)
         w.WriteHeader(http.StatusBadRequest)
         return

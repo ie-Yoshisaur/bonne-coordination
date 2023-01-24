@@ -2,7 +2,6 @@ package api
 
 import (
     "encoding/json"
-    "fmt"
     "log"
     "net/http"
 )
@@ -25,6 +24,10 @@ type BodyTypeResponse struct {
 func (s *Server) GetBodyType(w http.ResponseWriter, r *http.Request) {
     if r.Method != http.MethodPost {
         w.WriteHeader(http.StatusBadRequest)
+        return
+    }
+    claims, httpStatus := LoadClaimsFromJwt(w, r)
+    if httpStatus != 200 {
         return
     }
     var bodyTypeRequest BodyTypeRequest
@@ -99,8 +102,7 @@ func (s *Server) GetBodyType(w http.ResponseWriter, r *http.Request) {
     } else {
         bodyType = "ナチュラル"
     }
-    queryToUpdateBodyTypeAndGender := fmt.Sprintf("UPDATE users SET does_have_body_type = TRUE, gender = '%s', body_type = '%s'", bodyTypeRequest.Gender, bodyType)
-    _, queryRrror := s.Db.Exec(queryToUpdateBodyTypeAndGender)
+    _, queryRrror := s.Db.Exec("UPDATE users SET does_have_body_type = TRUE, gender = $1, body_type = $2 WHERE name = $3", bodyTypeRequest.Gender, bodyType, claims.Name)
     if queryRrror != nil {
         log.Println("[ERROR]", queryRrror)
         w.WriteHeader(http.StatusBadRequest)

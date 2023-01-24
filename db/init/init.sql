@@ -37,6 +37,18 @@ CREATE TABLE purchased_clothes (
     user_id INT NOT NULL REFERENCES users(id),
     clothe_id INT NOT NULL REFERENCES clothes(id)
 );
+
+CREATE INDEX index_users_name ON users (name);
+CREATE INDEX index_clothes_gender ON clothes (gender);
+CREATE INDEX index_clothes_body_type ON clothes (body_type);
+CREATE INDEX index_clothes_clothe_type ON clothes (clothe_type);
+CREATE INDEX index_liked_clothes_user_id ON liked_clothes (user_id);
+CREATE INDEX index_liked_clothes_clothe_id ON liked_clothes (clothe_id);
+CREATE INDEX index_disliked_clothes_user_id ON disliked_clothes (user_id);
+CREATE INDEX index_disliked_clothes_clothe_id ON disliked_clothes (clothe_id);
+CREATE INDEX index_purchased_clothes_user_id ON purchased_clothes (user_id);
+CREATE INDEX index_purchased_clothes_clothe_id ON purchased_clothes (clothe_id);
+
 INSERT INTO clothes (gender, body_type, clothe_type, name, price, brand, image_url, sale_site_url)
 VALUES ('男性', 'ストレート', 'アウター', 'ダブルブレストブレザー', 4990, 'GU', 'https://image.uniqlo.com/GU/ST3/jp/imagesgoods/345040/sub/jpgoods_345040_sub51.jpg?height=600&imformat=chrome&width=600', 'https://www.gu-global.com/jp/ja/products/E345040-000/00?colorDisplayCode=69'),
 ('男性', 'ストレート', 'アウター', 'デニムジャケット', 1990, 'GU', 'https://image.uniqlo.com/GU/ST3/jp/imagesgoods/343731/sub/jpgoods_343731_sub53.jpg?height=600&imformat=chrome&width=600', 'https://www.gu-global.com/jp/ja/products/E343731-000/00?colorDisplayCode=63'),
