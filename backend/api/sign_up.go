@@ -42,7 +42,6 @@ func (s *Server) SignUp(w http.ResponseWriter, r *http.Request) {
     }
     passwordHash32Byte := sha256.Sum256([]byte(signUpRequest.Password))
     passwordHashURLSafe := base64.URLEncoding.EncodeToString(passwordHash32Byte[:])
-    fmt.Println(signUpRequest.Name)
     queryToReGisterUser := fmt.Sprintf("INSERT INTO users (name, password_hash) VALUES ('%s', '%s');", signUpRequest.Name, passwordHashURLSafe)
     err2 := s.Db.Ping()
     if err2 != nil {

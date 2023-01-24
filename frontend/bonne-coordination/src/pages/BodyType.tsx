@@ -2,10 +2,8 @@ import React, { ChangeEvent, useContext, useState } from 'react';
 import { AppContext } from '../contexts/AppContext';
 import DiagnosisModal from '../components/modals/DiagnosisModal';
 
-const PageOne = () => {
+const BodyType = () => {
     const appContext = useContext(AppContext);
-    console.log(appContext?.bodyType);
-
     if (!appContext?.isSignedIn) {
         return (
             <div>
@@ -21,4 +19,4 @@ const PageOne = () => {
         </div>
     );
 };
-export default PageOne;
+export default BodyType;

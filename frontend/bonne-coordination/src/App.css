@@ -1,38 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond&family=Libre+Baskerville&family=Montserrat+Alternates&display=swap');
+
 .App {
+  display: grid;
+  grid-template-rows: 10% 5% 75% 10%; /*header takes up 15%, body takes up 75%, footer takes up 10% */
+  min-height: 100vh;
+  font-family: 'Libre Baskerville', sans-serif;
+}
+
+/* Header styles */
+.header {
+  grid-row: 1 / 2; /*header element will start on the first row and end on the second row */
+  background-color: #f5f5f5;
+  padding: 20px;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.header h1 {
+  margin: 0;
+  font-size: 2em;
+  color: #333;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.modals {
+  position: absolute;
+  top: 20px;
+  right: 20px;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+/* Navigation styles */
+.nav {
+  grid-row: 2 / 3;
+  background-color: #f5f5f5;
+  padding: 10px;
+  text-align: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav li {
+  display: inline-block;
+  margin: 0 20px;
+}
+
+.nav a {
+  color: #333;
+  text-decoration: none;
+  font-size: 1.2em;
+}
+
+.nav a:hover {
+  text-decoration: underline;
+}
+
+/* Body styles */
+.body {
+  grid-row: 3 / 4;
+  background-color: #fff
+}
+
+/* Footer styles */
+.footer {
+  grid-row: 4 / 5;
+  background-color: #f5f5f5;
+  color: #333;
+  padding: 20px;
+  text-align: center;
 }

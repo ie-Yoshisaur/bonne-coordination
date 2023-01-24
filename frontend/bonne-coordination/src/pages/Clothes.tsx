@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { AppContext } from '../contexts/AppContext';
 
-const PageTwo = () => {
+const Clothes = () => {
     const appContext = useContext(AppContext);
 
     if (!appContext?.isSignedIn) {
@@ -38,4 +38,4 @@ const PageTwo = () => {
     );
 };
 
-export default PageTwo;
+export default Clothes;

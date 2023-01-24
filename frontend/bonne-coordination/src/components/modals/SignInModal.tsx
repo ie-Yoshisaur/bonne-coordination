@@ -1,7 +1,8 @@
-import React, { ChangeEvent, useState, useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Modal from 'react-modal';
 import { AppContext } from '../../contexts/AppContext';
 import signIn from '../../functions/async/SignIn';
+import './Modal.css';
 
 function SignInModal() {
     const appContext = useContext(AppContext);
@@ -22,6 +23,7 @@ function SignInModal() {
         signIn(appContext, userName, password)
             .then(() => {
                 if (appContext?.isSignedIn) {
+                    console.log('hoo');
                     closeModal();
                 } else {
                     const errorMessageOfSignIn = '認証に失敗しました。（原因: 存在しないユーザー名、違うパスワードなど）';
@@ -37,22 +39,19 @@ function SignInModal() {
     };
     return (
         <div>
-            <button type="button" onClick={openModal}>サインイン</button>
+            <div className='when-modal-is-close'>
+                <button type="button" onClick={openModal}>Sign In</button>
+            </div>
             <Modal
                 isOpen={isModalOpen}
                 ariaHideApp={false}
+                className='modal-content'
             >
-                <button onClick={() => handleCancel()}>キャンセル</button>
-                <div className='user-name'>
-                    <label>ユーザー名</label>
-                    <input type="text" value={userName} onChange={handleNameChange} placeholder='ユーザー名'></input>
-                </div>
-                <div className='password'>
-                    <label>パスワード</label>
-                    <input type="password" value={password} onChange={handlePasswordChange}placeholder='パスワード'></input>
-                </div>
+                <button className='close-btn' onClick={() => handleCancel()}>&times;</button>
+                <input className="input" type="text" placeholder="Username" onChange={handleNameChange} value={userName} />
+                <input className="input" type="password" placeholder="Password" onChange={handlePasswordChange} value={password} />
                 <p>{errorMessage}</p>
-                <button onClick={() => handleSignIn()}>送信</button>
+                <button className="submit" onClick={() => handleSignIn()}>Sign In</button>
             </Modal>
         </div>
     );

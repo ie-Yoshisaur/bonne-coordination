@@ -1,15 +1,17 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import PageOne from './pages/PageOne';
-import PageTwo from './pages/PageTwo';
+import About from './pages/About';
+import BodyType from './pages/BodyType';
+import Clothes from './pages/Clothes';
 
 const Main = () => {
     return (         
         <Routes>
             <Route path='/' element={<Home/>} />
-            <Route path='/page1' element={<PageOne/>} />
-            <Route path='/page2' element={<PageTwo/>} />
+            <Route path='/about' element={<About/>} />
+            <Route path='/body-type' element={<BodyType/>} />
+            <Route path='/clothes' element={<Clothes/>} />
         </Routes>
     );
 };

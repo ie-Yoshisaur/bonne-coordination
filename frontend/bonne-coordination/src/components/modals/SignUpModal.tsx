@@ -2,6 +2,7 @@ import React, { ChangeEvent, useState, useContext } from 'react';
 import Modal from 'react-modal';
 import { AppContext } from '../../contexts/AppContext';
 import signUp from '../../functions/async/SignUp';
+import './Modal.css';
 
 function SignUpModal() {
     const appContext = useContext(AppContext);
@@ -42,27 +43,21 @@ function SignUpModal() {
     };
     return (
         <div>
-            <button type="button" onClick={openModal}>サインアップ</button>
-            <Modal
-                isOpen={isModalOpen}
-                ariaHideApp={false}
-            >
-                <button onClick={() => handleCancel()}>キャンセル</button>
-                <div className='user-name'>
-                    <label>ユーザー名</label>
-                    <input type="text" value={userName} onChange={handleNameChange} placeholder='ユーザー名'></input>
-                </div>
-                <div className='password'>
-                    <label>パスワード</label>
-                    <input type="password" value={password} onChange={handlePasswordChange}placeholder='パスワード'></input>
-                </div>
-                <div className='password-confirmination'>
-                    <label>パスワード(確認用)</label>
-                    <input type="password" value={passwordConfirmination} onChange={handlePasswordConfirminationChange} placeholder='パスワード(確認用)'></input>
-                </div>
-                <p>{errorMessage}</p>
-                <button onClick={() => handleSignUp()}>送信</button>
-            </Modal>
+            <div className='when-modal-is-close'>
+              <button type="button" onClick={openModal}>Sign Up</button>
+            </div>
+              <Modal
+                  isOpen={isModalOpen}
+                  ariaHideApp={false}
+                  className='modal-content'
+              >
+                    <button className='close-btn' onClick={() => handleCancel()}>&times;</button>
+                    <input className="input" type="text" placeholder="Username" onChange={handleNameChange} value={userName} />
+                    <input className="input" type="password" placeholder="Password" onChange={handlePasswordChange} value={password} />
+                    <input className="input" type="password" value={passwordConfirmination} onChange={handlePasswordConfirminationChange} placeholder='パスワード(確認用)'></input>
+                    <p>{errorMessage}</p>
+                    <button className="submit" onClick={() => handleSignUp()}>Sign In</button>
+              </Modal>
         </div>
     );
 }

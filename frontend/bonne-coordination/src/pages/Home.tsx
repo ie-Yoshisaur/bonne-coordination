@@ -1,35 +1,18 @@
 import React, {useState, useContext} from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AppContext } from '../contexts/AppContext';
-import SignUpModal from '../components/modals/SignUpModal';
-import SignInModal from '../components/modals/SignInModal';
+import './Home.css';
 
 const Home = () => {
-    const appContext = useContext(AppContext);
-    const navigate = useNavigate();
-    const navigateToBodyDiagnosisPage = () => {
-        navigate('/page1');
-    };
-    const ComponentsToRenderIfNotSignedIn = () => {
-        if (!appContext?.isSignedIn) {
-            return (
-                <>
-                    <SignUpModal />
-                    <SignInModal />
-                </ >
-            );
-        }
-        return (
-            <>
-                <button onClick={navigateToBodyDiagnosisPage}>骨格診断をする</button>
-            </ >
-        );
-    };
             
     return (
         <>
-            <h1> Bonne Coordination </h1>
-            <ComponentsToRenderIfNotSignedIn />
+            <img src="home-background-images/man1.png" style={{ display: 'none' }} />
+            <img src="home-background-images/woman1.png" style={{ display: 'none' }} />
+            <img src="home-background-images/man2.png" style={{ display: 'none' }} />
+            <img src="home-background-images/woman2.png" style={{ display: 'none' }} />
+            <img src="home-background-images/man3.png" style={{ display: 'none' }} />
+            <img src="home-background-images/woman3.png" style={{ display: 'none' }} />
+            <div className='hero'>
+            </div>
         </>
     );
 };
