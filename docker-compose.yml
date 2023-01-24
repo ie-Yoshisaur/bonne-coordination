@@ -68,8 +68,7 @@ services:
     depends_on:
       - ssl-gen-db
     volumes:
-      - ./.ssl/db/certs/localhost.crt:/etc/ssl/certs/localhost.crt
-      - ./.ssl/db/private/localhost.key:/etc/ssl/private/localhost.key
+      - ./.ssl/db:/etc/ssl
       - ./db/init/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
       - ./db/backup:/backup
       - ./db/conf/postgresql.conf:/etc/postgresql/postgresql.conf

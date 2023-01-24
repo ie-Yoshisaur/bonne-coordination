@@ -4,7 +4,7 @@ import DiagnosisModal from '../components/modals/DiagnosisModal';
 
 const PageOne = () => {
     const appContext = useContext(AppContext);
-    console.log(appContext?.skeletalType);
+    console.log(appContext?.bodyType);
 
     if (!appContext?.isSignedIn) {
         return (
@@ -16,8 +16,8 @@ const PageOne = () => {
     return (
         <div>
             <p>こんにちは、{appContext?.userName}さん</p>
-            {appContext?.doesHaveSkeletalType ? <> </> : <DiagnosisModal />}
-            {appContext?.doesHaveSkeletalType ? <p>あなたの骨格は{appContext?.skeletalType}です</p> : <> </>}
+            {appContext?.doesHaveBodyType ? <> </> : <DiagnosisModal />}
+            {appContext?.doesHaveBodyType ? <p>あなたの骨格は{appContext?.bodyType}です</p> : <> </>}
         </div>
     );
 };

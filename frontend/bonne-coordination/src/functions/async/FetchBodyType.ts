@@ -1,6 +1,6 @@
 import { AppState } from '../../contexts/AppContext';
 
-export default async function fetchSkeletalType(
+export default async function fetchBodyType(
     appContext: AppState | null,
     gender: string,
     bodyImpression: string,
@@ -11,8 +11,8 @@ export default async function fetchSkeletalType(
     kneecapImpression: string,
     unsuitableClothe: string,
 ) {
-    const fetchSkeletalTypeURL = process.env.REACT_APP_API_URL + '/get-skeletaltype';
-    await fetch(fetchSkeletalTypeURL, {
+    const fetchBodyTypeURL = process.env.REACT_APP_API_URL + '/get-bodytype';
+    await fetch(fetchBodyTypeURL, {
         method: 'POST',
         body: JSON.stringify({
             gender,
@@ -32,8 +32,8 @@ export default async function fetchSkeletalType(
             return Promise.reject();
         })
         .then((json) => {
-            appContext!.setSkeletalType(json!.skeletalType);
-            appContext!.setDoesHaveSkeletalType(true);
+            appContext!.setBodyType(json!.bodyType);
+            appContext!.setDoesHaveBodyType(true);
             return Promise.resolve();
         });
 }

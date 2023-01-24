@@ -7,7 +7,7 @@ import SignInModal from '../components/modals/SignInModal';
 const Home = () => {
     const appContext = useContext(AppContext);
     const navigate = useNavigate();
-    const navigateToSkeletalDiagnosisPage = () => {
+    const navigateToBodyDiagnosisPage = () => {
         navigate('/page1');
     };
     const ComponentsToRenderIfNotSignedIn = () => {
@@ -21,7 +21,7 @@ const Home = () => {
         }
         return (
             <>
-                <button onClick={navigateToSkeletalDiagnosisPage}>骨格診断をする</button>
+                <button onClick={navigateToBodyDiagnosisPage}>骨格診断をする</button>
             </ >
         );
     };

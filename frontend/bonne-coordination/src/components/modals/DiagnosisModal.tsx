@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState, useContext } from 'react';
 import Modal from 'react-modal';
 import { AppContext } from '../../contexts/AppContext';
-import fetchSkeletalType from '../../functions/async/FetchSkeletalType';
+import fetchBodyType from '../../functions/async/FetchBodyType';
 
 function DiagnosisModal() {
     const appContext = useContext(AppContext);
@@ -64,8 +64,8 @@ function DiagnosisModal() {
         }
     };
 
-    const fetchSkeletalTypeButtonAction = () => {
-        fetchSkeletalType(
+    const fetchBodyTypeButtonAction = () => {
+        fetchBodyType(
             appContext,
             gender,
             bodyImpression,
@@ -77,8 +77,8 @@ function DiagnosisModal() {
             unsuitableClothe,
         )
             .then(() => {
-                if (appContext!.skeletalType !== '未診断') {
-                    appContext!.setDoesHaveSkeletalType(true);
+                if (appContext!.bodyType !== '未診断') {
+                    appContext!.setDoesHaveBodyType(true);
                     closeModal();
                 }
             });
@@ -163,7 +163,7 @@ function DiagnosisModal() {
                 </select>
                 {pageCount !== 0 ? <button onClick={() => decreasePageCount()}>戻る</button>: <></ >}
                 {pageCount !== 7 ? <button onClick={() => increasePageCount()}>進む</button>: <></ >}
-                {pageCount === 7 && answers[pageCount] !== '--未選択--' ? <button onClick={() => fetchSkeletalTypeButtonAction()}>骨格診断の結果を取得する</button>: <></ >}
+                {pageCount === 7 && answers[pageCount] !== '--未選択--' ? <button onClick={() => fetchBodyTypeButtonAction()}>骨格診断の結果を取得する</button>: <></ >}
             </Modal>
         </div>
     );

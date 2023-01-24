@@ -16,8 +16,8 @@ type SignInRequest struct {
 
 type SignInResponse struct {
     Name string `json:"name"`
-    DoesHaveSkeletalType bool `json:"doesHaveSkeletalType"`
-    SkeletalType string `json:"skeletalType"`
+    DoesHaveBodyType bool `json:"doesHaveBodyType"`
+    BodyType string `json:"bodyType"`
 }
 
 func (s *Server) SignIn(w http.ResponseWriter, r *http.Request) {
@@ -35,11 +35,11 @@ func (s *Server) SignIn(w http.ResponseWriter, r *http.Request) {
     }
     passwordHash32Byte := sha256.Sum256([]byte(signInRequest.Password))
     passwordHashURLSafe := base64.URLEncoding.EncodeToString(passwordHash32Byte[:])
-    query := fmt.Sprintf("SELECT password_hash, does_have_skeletal_type, skeletal_type FROM users WHERE name = '%s'", signInRequest.Name)
+    query := fmt.Sprintf("SELECT password_hash, does_have_body_type, body_type FROM users WHERE name = '%s'", signInRequest.Name)
     var correctPasswordHashURLSafe string
-    var doesHaveSkeletalType bool
-    var skeletalType string
-    queryError := s.Db.QueryRow(query).Scan(&correctPasswordHashURLSafe, &doesHaveSkeletalType, &skeletalType)
+    var doesHaveBodyType bool
+    var bodyType string
+    queryError := s.Db.QueryRow(query).Scan(&correctPasswordHashURLSafe, &doesHaveBodyType, &bodyType)
     httpStatus := HandleQueryError(queryError, w)
     if httpStatus != 200 {
         return
@@ -52,8 +52,8 @@ func (s *Server) SignIn(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Content-Type", "application/json")
     response := SignInResponse{
         Name: signInRequest.Name,
-        DoesHaveSkeletalType: doesHaveSkeletalType,
-        SkeletalType: skeletalType,
+        DoesHaveBodyType: doesHaveBodyType,
+        BodyType: bodyType,
     }
     jsonResponse, err := json.Marshal(response)
     if err != nil {
@@ -71,10 +71,10 @@ func (s *Server) SignInWithJwt(w http.ResponseWriter, r *http.Request) {
     if httpStatus != 200 {
         return
     }
-    query := fmt.Sprintf("SELECT does_have_skeletal_type, skeletal_type FROM users WHERE name = '%s'", claims.Name)
-    var doesHaveSkeletalType bool
-    var skeletalType string
-    if queryError := s.Db.QueryRow(query).Scan(&doesHaveSkeletalType, &skeletalType); queryError != nil {
+    query := fmt.Sprintf("SELECT does_have_body_type, body_type FROM users WHERE name = '%s'", claims.Name)
+    var doesHaveBodyType bool
+    var bodyType string
+    if queryError := s.Db.QueryRow(query).Scan(&doesHaveBodyType, &bodyType); queryError != nil {
         log.Println("[ERROR]", queryError)
         w.WriteHeader(http.StatusBadRequest)
         return
@@ -82,8 +82,8 @@ func (s *Server) SignInWithJwt(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Content-Type", "application/json")
     response := SignInResponse{
         Name: claims.Name,
-        DoesHaveSkeletalType: doesHaveSkeletalType,
-        SkeletalType: skeletalType,
+        DoesHaveBodyType: doesHaveBodyType,
+        BodyType: bodyType,
     }
     jsonResponse, err := json.Marshal(response)
     if err != nil {
