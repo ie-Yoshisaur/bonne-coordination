@@ -4,17 +4,17 @@ import BodyTypeDiagnose from '../components/body/BodyTypeDiagnose';
 
 const BodyType: React.FC = () => {
     const appContext = useContext(AppContext);
-//    if (!appContext.isSignedIn) {
-//        return (
-//            <div>
-//                <p>ログインしてください</p>
-//            </div>
-//        );
-//    }
+    if (!appContext.isSignedIn) {
+        return (
+            <div>
+                <p>ログインしてください</p>
+            </div>
+        );
+    }
     return (
         <div>
               {appContext.doesHaveBodyType ? <> </> : <BodyTypeDiagnose />}
-              {appContext.doesHaveBodyType ? <p>あなたの骨格は{appContext?.bodyType}です</p> : <> </>}
+              {appContext.doesHaveBodyType ? <p>{appContext.userName}さんの骨格は{appContext.bodyType}です</p> : <> </>}
         </div>
     );
 };

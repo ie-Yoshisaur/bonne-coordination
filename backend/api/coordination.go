@@ -9,8 +9,8 @@ type ClotheInfo struct {
     Name       string `json:"name"`
     Price      int    `json:"price"`
     Brand      string `json:"brand"`
-    ImageURL   string `json:"image_url"`
-    SaleSiteURL string `json:"sale_site_url"`
+    ImageURL   string `json:"imageURL"`
+    SaleSiteURL string `json:"saleSiteURL"`
 }
 
 func (s *Server)GetUserInfo(name string) (gender string, bodyType string, err error) {
