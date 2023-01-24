@@ -10,12 +10,12 @@ import (
 type BodyTypeRequest struct {
     Gender string `json:"gender"`
     BodyImpression string `json:"bodyImpression"`
-    FingerJointSize string `json:"fingerJointSize"`
-    WristShape string `json:"wristShape"`
-    WristAnkcle string `json:"wristAnkcle"`
-    ClavicleImpression string `json:"clavicleImpression"`
-    KneecapImpression string `json:"kneecapImpression"`
     UnsuitableClothe string `json:"unsuitableClothe"`
+    HandImpression string `json:"handImpression"`
+    LegImpression string `json:"legImpression"`
+    ButtocksImpression string `json:"buttocksImpression"`
+    NeckImpression string `json:"neckImpression"`
+    MuscleImpression string `json:"muscleImpression"`
 }
 
 type BodyTypeResponse struct {
@@ -42,53 +42,53 @@ func (s *Server) GetBodyType(w http.ResponseWriter, r *http.Request) {
     straightScore := 0
     waveScore := 0
     naturalScore := 0
-    if bodyTypeRequest.BodyImpression == "厚みがあり、肉厚的" {
+    if bodyTypeRequest.BodyImpression == "あばら骨の縦幅が気になる" {
         straightScore += 1
-    } else if bodyTypeRequest.BodyImpression == "厚みは少なく、すらりとしている" {
+    } else if bodyTypeRequest.BodyImpression == "お尻が横に広い" {
         waveScore += 1
-    } else if bodyTypeRequest.BodyImpression == "骨や筋が目立つ" {
+    } else if bodyTypeRequest.BodyImpression == "肩のラインの骨が目立つ" {
         naturalScore += 1
     }
-    if bodyTypeRequest.FingerJointSize == "小さめ" {
+    if bodyTypeRequest.UnsuitableClothe == "タイトな服を着るとお腹が出て見える" {
         straightScore += 1
-    } else if bodyTypeRequest.FingerJointSize == "ふつう" {
+    } else if bodyTypeRequest.UnsuitableClothe == "オーバーサイズの服だと着太りする" {
         waveScore += 1
-    } else if bodyTypeRequest.FingerJointSize == "大きい" {
+    } else if bodyTypeRequest.UnsuitableClothe == "タイトな服を着ると骨感でゴツくなる" {
         naturalScore += 1
     }
-    if bodyTypeRequest.WristShape == "断面にすると丸に近い形" {
+    if bodyTypeRequest.HandImpression == "指よりも手のひらが長い" {
         straightScore += 1
-    } else if bodyTypeRequest.WristShape == "幅が広くてうすく、断面にすると平べったい形" {
+    } else if bodyTypeRequest.HandImpression == "手のひらが薄い" {
         waveScore += 1
-    } else if bodyTypeRequest.WristShape == "骨が目立ち、しっかりしている" {
+    } else if bodyTypeRequest.HandImpression == "指が長めで、関節が大きい" {
         naturalScore += 1
     }
-    if bodyTypeRequest.WristAnkcle == "ほとんど見えないくらい小さい" {
+    if bodyTypeRequest.LegImpression == "ふくらはぎから足首のラインにメリハリがある" {
         straightScore += 1
-    } else if bodyTypeRequest.WristAnkcle == "ふつうに見える程度の大きさ" {
+    } else if bodyTypeRequest.LegImpression == "太ももの付け根が横に張り出している" {
         waveScore += 1
-    } else if bodyTypeRequest.WristAnkcle == "とてもはっきり出ている、または大きい" {
+    } else if bodyTypeRequest.LegImpression == "膝の皿が大きく、アキレス腱が太い" {
         naturalScore += 1
     }
-    if bodyTypeRequest.ClavicleImpression == "ほとんど見えないくらい小さい" {
+    if bodyTypeRequest.ButtocksImpression == "上向きに丸い" {
         straightScore += 1
-    } else if bodyTypeRequest.ClavicleImpression == "見えるが細め" {
+    } else if bodyTypeRequest.ButtocksImpression == "下向きに丸い" {
         waveScore += 1
-    } else if bodyTypeRequest.ClavicleImpression == "大きくしっかりしている" {
+    } else if bodyTypeRequest.ButtocksImpression == "真っ直ぐ" {
         naturalScore += 1
     }
-    if bodyTypeRequest.KneecapImpression == "小さめで、あまり存在感がない" {
+    if bodyTypeRequest.NeckImpression == "首が短い" {
         straightScore += 1
-    } else if bodyTypeRequest.KneecapImpression == "中くらいの大きさ、触ると前に出ている" {
+    } else if bodyTypeRequest.NeckImpression == "首が細く長い" {
         waveScore += 1
-    } else if bodyTypeRequest.KneecapImpression == "大きい" {
+    } else if bodyTypeRequest.NeckImpression == "首が太め" {
         naturalScore += 1
     }
-    if bodyTypeRequest.UnsuitableClothe == "スキニーパンツ" {
+    if bodyTypeRequest.MuscleImpression == "筋肉が付きやすい" {
         straightScore += 1
-    } else if bodyTypeRequest.UnsuitableClothe == "革ジャケット" {
+    } else if bodyTypeRequest.MuscleImpression == "筋肉が付きにくい" {
         waveScore += 1
-    } else if bodyTypeRequest.UnsuitableClothe == "無地の小さめのTシャツ" {
+    } else if bodyTypeRequest.MuscleImpression == "全体的に骨太である" {
         naturalScore += 1
     }
     var bodyType string

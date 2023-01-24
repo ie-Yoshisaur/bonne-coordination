@@ -1,22 +1,22 @@
 import React, { ChangeEvent, useContext, useState } from 'react';
 import { AppContext } from '../contexts/AppContext';
-import DiagnosisModal from '../components/modals/DiagnosisModal';
+import BodyTypeDiagnose from '../components/body/BodyTypeDiagnose';
 
-const BodyType = () => {
+const BodyType: React.FC = () => {
     const appContext = useContext(AppContext);
-    if (!appContext.isSignedIn) {
-        return (
-            <div>
-                <p>ログインしてください</p>
-            </div>
-        );
-    }
+//    if (!appContext.isSignedIn) {
+//        return (
+//            <div>
+//                <p>ログインしてください</p>
+//            </div>
+//        );
+//    }
     return (
         <div>
-            <p>こんにちは、{appContext.userName}さん</p>
-            {appContext.doesHaveBodyType ? <> </> : <DiagnosisModal />}
-            {appContext.doesHaveBodyType ? <p>あなたの骨格は{appContext.bodyType}です</p> : <> </>}
+              {appContext.doesHaveBodyType ? <> </> : <BodyTypeDiagnose />}
+              {appContext.doesHaveBodyType ? <p>あなたの骨格は{appContext?.bodyType}です</p> : <> </>}
         </div>
     );
 };
+
 export default BodyType;

@@ -1,10 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=EB+Garamond&family=Libre+Baskerville&family=Montserrat+Alternates&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=BIZ+UDPMincho&family=EB+Garamond&family=Libre+Baskerville&family=Montserrat+Alternates&display=swap');
 
 .App {
   display: grid;
   grid-template-rows: 10% 5% 75% 10%; /*header takes up 15%, body takes up 75%, footer takes up 10% */
   min-height: 100vh;
-  font-family: 'Libre Baskerville', sans-serif;
+  font-family: 'Libre Baskerville', 'BIZ UDPMincho', sans-serif;
 }
 
 /* Header styles */

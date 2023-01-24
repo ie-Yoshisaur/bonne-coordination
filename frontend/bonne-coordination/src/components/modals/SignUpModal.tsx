@@ -56,7 +56,7 @@ function SignUpModal() {
                 <input className="input" type="password" placeholder="Password" onChange={handlePasswordChange} value={password} />
                 <input className="input" type="password" value={passwordConfirmination} onChange={handlePasswordConfirminationChange} placeholder='パスワード(確認用)'></input>
                 <p>{errorMessage}</p>
-                <button className="submit" onClick={() => handleSignUp()}>Sign In</button>
+                <button className="submit" onClick={() => handleSignUp()}>Sign Up</button>
             </Modal>
         </div>
     );

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { AppContext } from './contexts/AppContext';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import SignUpModal from './components/modals/SignUpModal';
 import SignInModal from './components/modals/SignInModal';
 import SignInWithJwt from './functions/async/SignInWithJwt';
@@ -37,10 +37,10 @@ export default function App() {
                 </div>
                 <div className='nav'>
                     <ul>
-                        <li><Link to='/'>Home</Link></li>
-                        <li><Link to='/about'>About</Link></li>
-                        <li><Link to='/body-type'>Your Body Type</Link></li>
-                        <li><Link to='/clothes'>Clothes</Link></li>
+                        <li><NavLink to='/' className={({ isActive }) => isActive? 'font-bold' : 'font-thin'} >Home</NavLink></li>
+                        <li><NavLink to='/about' className={({ isActive }) => isActive? 'font-bold' : 'font-thin'} >About</NavLink></li>
+                        <li><NavLink to='/body-type' className={({ isActive }) => isActive? 'font-bold' : 'font-thin'} >Your Body Type</NavLink></li>
+                        <li><NavLink to='/clothes' className={({ isActive }) => isActive? 'font-bold' : 'font-thin'} >Clothes</NavLink></li>
                     </ul>
                 </div>
                 <hr />
