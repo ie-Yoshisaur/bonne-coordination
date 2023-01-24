@@ -26,7 +26,7 @@ function SignUpModal() {
     const handleSignUp = () => {
         signUp(appContext, userName, password, passwordConfirmination)
             .then(() => {
-                if (appContext?.isSignedIn) {
+                if (appContext.isSignedIn) {
                     closeModal();
                 } else {
                     const errorMessageOfSignUp = '無効な入力です。（原因: すでに存在するユーザー名、無効なパスワードなど）';
@@ -44,20 +44,20 @@ function SignUpModal() {
     return (
         <div>
             <div className='when-modal-is-close'>
-              <button type="button" onClick={openModal}>Sign Up</button>
+                <button type="button" onClick={openModal}>Sign Up</button>
             </div>
-              <Modal
-                  isOpen={isModalOpen}
-                  ariaHideApp={false}
-                  className='modal-content'
-              >
-                    <button className='close-btn' onClick={() => handleCancel()}>&times;</button>
-                    <input className="input" type="text" placeholder="Username" onChange={handleNameChange} value={userName} />
-                    <input className="input" type="password" placeholder="Password" onChange={handlePasswordChange} value={password} />
-                    <input className="input" type="password" value={passwordConfirmination} onChange={handlePasswordConfirminationChange} placeholder='パスワード(確認用)'></input>
-                    <p>{errorMessage}</p>
-                    <button className="submit" onClick={() => handleSignUp()}>Sign In</button>
-              </Modal>
+            <Modal
+                isOpen={isModalOpen}
+                ariaHideApp={false}
+                className='modal-content'
+            >
+                <button className='close-btn' onClick={() => handleCancel()}>&times;</button>
+                <input className="input" type="text" placeholder="Username" onChange={handleNameChange} value={userName} />
+                <input className="input" type="password" placeholder="Password" onChange={handlePasswordChange} value={password} />
+                <input className="input" type="password" value={passwordConfirmination} onChange={handlePasswordConfirminationChange} placeholder='パスワード(確認用)'></input>
+                <p>{errorMessage}</p>
+                <button className="submit" onClick={() => handleSignUp()}>Sign In</button>
+            </Modal>
         </div>
     );
 }

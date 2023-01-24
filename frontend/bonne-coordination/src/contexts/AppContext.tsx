@@ -15,7 +15,7 @@ export interface AppState {
     setBodyType: Dispatch<SetStateAction<string>>,
 }
 
-export const AppContext = createContext<AppState | null>(null);
+export const AppContext = createContext<AppState>({} as AppState);
 export const AppContextProvider: FC<Props> = ({ children}) => {
     const [isSignedIn, setIsSignedIn] = useState(false);
     const [userName, setUserName] = useState('');

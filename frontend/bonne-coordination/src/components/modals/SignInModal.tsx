@@ -22,7 +22,7 @@ function SignInModal() {
     const handleSignIn = () => {
         signIn(appContext, userName, password)
             .then(() => {
-                if (appContext?.isSignedIn) {
+                if (appContext.isSignedIn) {
                     console.log('hoo');
                     closeModal();
                 } else {

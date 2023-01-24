@@ -1,7 +1,7 @@
 import { AppState } from '../../contexts/AppContext';
 
 export default async function signIn(
-    appContext: AppState | null,
+    appContext: AppState,
     name: string,
     password: string,
 ) {
@@ -20,14 +20,14 @@ export default async function signIn(
             return Promise.reject();
         })
         .then((json) => {
-            appContext?.setUserName(json?.name);
+            appContext.setUserName(json?.name);
             if (json?.doesHaveBodyType) {
-                appContext?.setBodyType(json?.sekeletalType);
-                appContext?.setDoesHaveBodyType(true);
+                appContext.setBodyType(json?.sekeletalType);
+                appContext.setDoesHaveBodyType(true);
             }
-            appContext?.setIsSignedIn(true);
+            appContext.setIsSignedIn(true);
         })
         .catch(() => {
-            appContext?.setIsSignedIn(false);
+            appContext.setIsSignedIn(false);
         });
 }

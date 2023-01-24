@@ -13,12 +13,12 @@ export default function App() {
         SignInWithJwt(appContext);
     }, []);
     const SignUpOrSignIn = () => {
-        if (!appContext?.isSignedIn) {
+        if (!appContext.isSignedIn) {
             return (
                 <>
                     <div className='modals'>
-                      <SignUpModal />
-                      <SignInModal />
+                        <SignUpModal />
+                        <SignInModal />
                     </div>
                 </ >
             );
@@ -32,24 +32,24 @@ export default function App() {
         <>
             <div className='App'>
                 <div className='header'>
-                  <h1>Bonne Coordination</h1>
-                  <SignUpOrSignIn />
+                    <h1>Bonne Coordination</h1>
+                    <SignUpOrSignIn />
                 </div>
                 <div className='nav'>
-                  <ul>
-                      <li><Link to='/'>Home</Link></li>
-                      <li><Link to='/about'>About</Link></li>
-                      <li><Link to='/body-type'>Your Body Type</Link></li>
-                      <li><Link to='/clothes'>Clothes</Link></li>
-                  </ul>
+                    <ul>
+                        <li><Link to='/'>Home</Link></li>
+                        <li><Link to='/about'>About</Link></li>
+                        <li><Link to='/body-type'>Your Body Type</Link></li>
+                        <li><Link to='/clothes'>Clothes</Link></li>
+                    </ul>
                 </div>
                 <hr />
                 <div className='body'>
-                  <Main />
+                    <Main />
                 </div>
                 <hr />
                 <div className='footer'>
-                  <p>Copyright ©2023 skeleton</p>
+                    <p>Copyright ©2023 skeleton</p>
                 </div>
             </div>
         </>
