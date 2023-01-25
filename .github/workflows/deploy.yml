@@ -18,7 +18,6 @@ jobs:
       - name: Set env
         uses: SpicyPizza/create-envfile@v1.3
         with:
-          envkey_POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           envkey_POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           directory: .
           file_name: .env
