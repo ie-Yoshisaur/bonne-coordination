@@ -15,7 +15,7 @@ const (
 )
 
 var (
-	user     = os.Getenv("POSTGRES_USER")
+	user     = "postgres"
 	password = os.Getenv("POSTGRES_PASSWORD")
 	dbname   = "postgres"
 )
