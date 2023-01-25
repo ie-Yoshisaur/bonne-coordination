@@ -15,12 +15,6 @@ jobs:
           config: ${{ secrets.SSH_CONFIG }}
       - name: Check out code
         uses: actions/checkout@v2
-      - name: Set env
-        uses: SpicyPizza/create-envfile@v1.3
-        with:
-          envkey_POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          directory: .
-          file_name: .env
       - name: Deploy with rsync
         run: |
           ls -a
