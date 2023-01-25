@@ -1,0 +1,21 @@
+.body-type-explanation {
+    text-align: center;
+}
+
+.body-type-explanation h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.body-type-explanation p {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    margin-bottom: 30px;
+}
+
+.body-type-explanation img {
+    max-width: 25%;
+    height: auto;
+}
+

@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useContext, useState } from 'react';
 import { AppContext } from '../contexts/AppContext';
 import BodyTypeDiagnose from '../components/body/BodyTypeDiagnose';
+import BodyTypeExplanation from '../components/body/BodyTypeExplanation';
 
 const BodyType: React.FC = () => {
     const appContext = useContext(AppContext);
@@ -14,7 +15,7 @@ const BodyType: React.FC = () => {
     return (
         <div>
               {appContext.doesHaveBodyType ? <> </> : <BodyTypeDiagnose />}
-              {appContext.doesHaveBodyType ? <p>{appContext.userName}さんの骨格は{appContext.bodyType}です</p> : <> </>}
+              {appContext.doesHaveBodyType ? <BodyTypeExplanation /> : <> </>}
         </div>
     );
 };
