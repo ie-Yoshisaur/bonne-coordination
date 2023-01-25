@@ -1,7 +1,7 @@
 import { AppState } from '../../contexts/AppContext';
 
 export default async function signUp(
-    appContext: AppState | null,
+    appContext: AppState,
     name: string,
     password: string,
     passwordConfirmination: string,
@@ -22,10 +22,10 @@ export default async function signUp(
             return Promise.reject();
         })
         .then((json) => {
-            appContext?.setUserName(json?.name);
-            appContext?.setIsSignedIn(true);
+            appContext.setUserName(json?.name);
+            appContext.setIsSignedIn(true);
         })
         .catch(() => {
-            appContext?.setIsSignedIn(false);
+            appContext.setIsSignedIn(false);
         });
 }

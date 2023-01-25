@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond&family=Libre+Baskerville&family=Montserrat+Alternates&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=BIZ+UDPMincho&family=EB+Garamond&family=Libre+Baskerville&family=Montserrat+Alternates&display=swap');
+
+.Clothes {
+  font-family: 'Libre Baskerville', 'BIZ UDPMincho', sans-serif;
+}
+
+.product-card--fixed {
+    overflow: hidden;
+}
+
+.product-list__item {
+    width: 18%;
+    margin-bottom: 20px;
+    margin-right: 10px;
+}
+
+.product-card__content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+    height: 100%;
+}
+
+.product-card:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s;
+}
+
+button {
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  margin: 30px;
+  background-color: #333;
+  color: #fff;
+  border-radius: 5px;
+  font-size: 1.2em;
+  text-align: center;
+  cursor: pointer;
+}

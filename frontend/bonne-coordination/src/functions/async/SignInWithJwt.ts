@@ -1,6 +1,6 @@
 import { AppState } from '../../contexts/AppContext';
 
-export default async function signUp(appContext: AppState | null) {
+export default async function signUp(appContext: AppState) {
     const signUpWithJwtUrl = process.env.REACT_APP_API_URL + '/sign-in-with-jwt';
     fetch(signUpWithJwtUrl, {
         method: 'GET',
@@ -12,15 +12,15 @@ export default async function signUp(appContext: AppState | null) {
             return Promise.reject();
         })
         .then((json) => {
-            appContext?.setUserName(json?.name);
+            appContext.setUserName(json?.name);
             if (json?.doesHaveBodyType) {
-                appContext?.setDoesHaveBodyType(true);
+                appContext.setDoesHaveBodyType(true);
                 const bodyType = json?.bodyType;
-                appContext?.setBodyType(bodyType);
+                appContext.setBodyType(bodyType);
             }
-            appContext?.setIsSignedIn(true);
+            appContext.setIsSignedIn(true);
         })
         .catch(() => {
-            appContext?.setIsSignedIn(false);
+            appContext.setIsSignedIn(false);
         });
 }
