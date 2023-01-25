@@ -33,7 +33,7 @@ const Clothes = () => {
                 ))}
             </div>
             <div className="buttons">
-              <button className="reload-button" onClick={() => fetchCoordination(appContext)} > 別の服を見る </button>
+                <button className="reload-button" onClick={() => fetchCoordination(appContext)} > 別の服を見る </button>
             </div>
         </div>
     );

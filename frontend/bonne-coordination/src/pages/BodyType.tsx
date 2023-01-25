@@ -14,8 +14,8 @@ const BodyType: React.FC = () => {
     }
     return (
         <div>
-              {appContext.doesHaveBodyType ? <> </> : <BodyTypeDiagnose />}
-              {appContext.doesHaveBodyType ? <BodyTypeExplanation /> : <> </>}
+            {appContext.doesHaveBodyType ? <> </> : <BodyTypeDiagnose />}
+            {appContext.doesHaveBodyType ? <BodyTypeExplanation /> : <> </>}
         </div>
     );
 };
